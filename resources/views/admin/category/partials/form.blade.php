@@ -1,5 +1,8 @@
+@if($errors->any())
+    @include('partials.errors')
+@endif
 <label for="">Заголовок</label>
-<input type="text" name="title" class="form-control" placeholder="Заголовок" value={{$category->title or ""}}>
+<input type="text" name="title" class="form-control" placeholder="Заголовок" value="{{$category->title or ""}}">
 <label for="" class="mt-3">Статус</label>
 <select name="published" class="form-control">
     @if(isset($category->id))

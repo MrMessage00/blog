@@ -5,19 +5,18 @@
         <div class="row">
             <div class="col">
                 @component('admin.components.breadcrumbs')
-                    @slot('title') Редактирование категории @endslot
+                    @slot('title') Редактирование материала @endslot
                     @slot('parent') Главная @endslot
-                    @slot('active') Редактирование категории @endslot
+                    @slot('active') Редактирование материала @endslot
                 @endcomponent
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <form method="POST" action="{{Route('admin.category.update', $category)}}" class="form-horizontal">
-                    <input type="hidden" name="_method" value="PUT">
+                <form method="post" action="{{Route('admin.article.update', $article)}}" class="form-horizontal">
                     {{csrf_field()}}
-                    @include('admin.category.partials.form', [
-                        'category'   => $category,
+                    @include('admin.article.partials.form', [
+                        'article'    => $article,
                         'categories' => $categories,
                         'delimeter'  => $delimeter
                     ])

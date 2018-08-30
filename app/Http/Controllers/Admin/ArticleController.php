@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Article;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class CategoryController extends Controller
+class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +17,8 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        return view('admin.category.index', [
-           'category'   => [],
-           'categories' => Category::paginate(10)
+        return view('admin.article.index', [
+            'articles' => Article::orderBy('created_at','desc')->paginate(10)
         ]);
     }
 
@@ -30,8 +30,8 @@ class CategoryController extends Controller
     public function create()
     {
         //
-        return view('admin.category.create', [
-            'category'   => '',
+        return view('admin.article.create',[
+            'article'    => [],
             'categories' => Category::with('children')->where('parent_id', 0)->get(),
             'delimeter'  => ''
         ]);
@@ -46,22 +46,31 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
-        $validationData = $request->validate([
-            'title' => 'required|unique',
-            'slug' => 'required|unique'
+        $request->validate([
+           'title' => 'required',
+           'description_short' => 'required',
+           'description' => 'required',
         ]);
-        Category::create($validationData);
 
-        return redirect()->Route('admin.category.index');
+        $cat_lists = $request->input('categories');
+        $article = Article::create($request->except('categories'));
+
+        if($cat_lists != '') :
+
+            $article->categories()->attach($cat_lists);
+
+        endif;
+
+        return redirect()->route('admin.article.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(Article $article)
     {
         //
     }
@@ -69,14 +78,14 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Article $article)
     {
         //
-        return view('admin.category.edit', [
-            'category'   => $category,
+        return view('admin.article.edit',[
+            'article'    => $article,
             'categories' => Category::with('children')->where('parent_id', 0)->get(),
             'delimeter'  => ''
         ]);
@@ -86,31 +95,26 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
+     * @param  \App\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Article $article)
     {
         //
-        $request->validate([
-            'title' => 'required',
-        ]);
-
-        $category->update($request->except('slug'));
-        return redirect()->route('admin.category.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Article $article)
     {
         //
-        $category->delete();
-        return redirect()->route('admin.category.index');
-
+        $article->categories()->detach();
+        $article->delete();
+        
+        return redirect()->route('admin.article.index');
     }
 }
