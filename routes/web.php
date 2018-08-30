@@ -10,6 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+/*DB::listen(function($query) {
+    var_dump($query->sql, $query->bindings);
+});*/
 
 Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=>['auth']], function(){
 

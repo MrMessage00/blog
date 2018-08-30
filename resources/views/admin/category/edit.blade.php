@@ -5,16 +5,16 @@
         <div class="row">
             <div class="col">
                 @component('admin.components.breadcrumbs')
-                    @slot('title') Создание категории @endslot
+                    @slot('title') Редактирование категории @endslot
                     @slot('parent') Главная @endslot
-                    @slot('active') Создание категории @endslot
+                    @slot('active') Редактирование категории @endslot
                 @endcomponent
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <form method="post" action="{{Route('admin.category.store')}}" class="form-horizontal">
-                    {{csrf_field()}}
+                <form method="POST" action="{{Route('admin.category.update', $category)}}" class="form-horizontal">
+                    <input type="hidden" name="_method" value="PUT">                    {{csrf_field()}}
                     @include('admin.category.partials.form', [
                         'category'   => $category,
                         'categories' => $categories,

@@ -17,6 +17,7 @@ class CategoryController extends Controller
     {
         //
         return view('admin.category.index', [
+           'category'   => [],
            'categories' => Category::paginate(10)
         ]);
     }
@@ -29,6 +30,11 @@ class CategoryController extends Controller
     public function create()
     {
         //
+        return view('admin.category.create', [
+            'category'   => '',
+            'categories' => Category::with('children')->where('parent_id', 0)->get(),
+            'delimeter'  => ''
+        ]);
     }
 
     /**
@@ -40,6 +46,9 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
+        Category::create($request->all());
+
+        return redirect()->Route('admin.category.index');
     }
 
     /**
@@ -62,6 +71,11 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         //
+        return view('admin.category.edit', [
+            'category'   => $category,
+            'categories' => Category::with('children')->where('parent_id', 0)->get(),
+            'delimeter'  => ''
+        ]);
     }
 
     /**
@@ -74,6 +88,8 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         //
+        $category->update($request->except('slug'));
+        return redirect()->route('admin.category.index');
     }
 
     /**

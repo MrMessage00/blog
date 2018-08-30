@@ -27,7 +27,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <a class="btn btn-block btn-primary" href="#">Создать категорию</a>
+                <a class="btn btn-block btn-primary" href="{{Route('admin.category.create')}}">Создать категорию</a>
                 <div class="card" href="#">
                     <h4 class="card-header">Категория первая</h4>
                     <p class="card-body">
