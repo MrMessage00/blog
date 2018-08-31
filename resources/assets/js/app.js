@@ -6,8 +6,14 @@
  */
 
 require('./bootstrap');
+require('sweetalert');
 
 window.Vue = require('vue');
+
+$(document).ready(function(){
+    CKEDITOR.replace( 'description' );
+    CKEDITOR.replace( 'description_short' );
+});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

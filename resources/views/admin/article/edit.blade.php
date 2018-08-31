@@ -13,8 +13,9 @@
         </div>
         <div class="row">
             <div class="col">
-                <form method="post" action="{{Route('admin.article.update', $article)}}" class="form-horizontal">
+                <form method="post" action="{{Route('admin.article.update', ['id'=>$article->id])}}" class="form-horizontal">
                     {{csrf_field()}}
+                    <input type="hidden" name="_method" value="PUT">
                     @include('admin.article.partials.form', [
                         'article'    => $article,
                         'categories' => $categories,

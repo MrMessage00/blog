@@ -52,12 +52,11 @@ class ArticleController extends Controller
            'description' => 'required',
         ]);
 
-        $cat_lists = $request->input('categories');
-        $article = Article::create($request->except('categories'));
+        $article = Article::create($request->all());
 
-        if($cat_lists != '') :
+        if($request->input('categories')) :
 
-            $article->categories()->attach($cat_lists);
+            $article->categories()->attach($request->input('categories'));
 
         endif;
 
@@ -100,7 +99,20 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'description_short' => 'required',
+            'description' => 'required',
+        ]);
+
+        $article->update($request->except('slug'));
+        $article->categories()->detach();
+
+        if($request->input('categories')):
+            $article->categories()->attach($request->input('categories'));
+        endif;
+
+        return redirect()->route('admin.article.index');
     }
 
     /**
@@ -114,7 +126,7 @@ class ArticleController extends Controller
         //
         $article->categories()->detach();
         $article->delete();
-        
+
         return redirect()->route('admin.article.index');
     }
 }
