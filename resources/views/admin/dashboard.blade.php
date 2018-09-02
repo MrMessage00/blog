@@ -6,12 +6,12 @@
         <div class="row">
             <div class="col">
                 <div class="jumbotron">
-                    <h4>Категорий <span class="badge badge-secondary">0</h4>
+                    <h4>Категорий <span class="badge badge-secondary">{{$count_categories}}</h4>
                 </div>
             </div>
             <div class="col">
                 <div class="jumbotron">
-                    <h4>Материалов <span class="badge badge-secondary">0</h4>
+                    <h4>Материалов <span class="badge badge-secondary">{{$count_articles}}</h4>
                 </div>
             </div>
             <div class="col">
@@ -28,21 +28,25 @@
         <div class="row">
             <div class="col">
                 <a class="btn btn-block btn-primary" href="{{Route('admin.category.create')}}">Создать категорию</a>
-                <div class="card" href="#">
-                    <h4 class="card-header">Категория первая</h4>
+                @foreach($categories as $category)
+                <div class="card">
+                    <h6 class="card-header"><a href="{{Route('admin.category.edit', $category)}}">{{$category->title}}</a></h6>
                     <p class="card-body">
-                        Кол-во материалов
+                        Кол-во материалов {{$category->articles->count()}}
                     </p>
                 </div>
+                @endforeach
             </div>
             <div class="col">
-                <a class="btn btn-block btn-primary" href="#">Создать материал</a>
-                <div class="card" href="#">
-                    <h4 class="card-header">Материал первый</h4>
-                    <p class="card-body">
-                       Категория
-                    </p>
-                </div>
+                <a class="btn btn-block btn-primary" href="{{Route('admin.article.create')}}">Создать материал</a>
+                @foreach($articles as $article)
+                    <div class="card">
+                        <h6 class="card-header"><a href="{{Route('admin.article.edit', $article)}}">{{$article->title}}</a></h6>
+                        <p class="card-body">
+                            {{$article->categories->pluck('title')->implode(', ')}}
+                        </p>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>

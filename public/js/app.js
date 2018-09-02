@@ -13969,8 +13969,10 @@ __webpack_require__(37);
 window.Vue = __webpack_require__(39);
 
 $(document).ready(function () {
-  CKEDITOR.replace('description');
-  CKEDITOR.replace('description_short');
+    if ($('#description').length > 0) {
+        CKEDITOR.replace('description');
+        CKEDITOR.replace('description_short');
+    }
 });
 
 /**
@@ -13982,7 +13984,7 @@ $(document).ready(function () {
 Vue.component('example-component', __webpack_require__(40));
 
 var app = new Vue({
-  el: '#app'
+    el: '#app'
 });
 
 /***/ }),

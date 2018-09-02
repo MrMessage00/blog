@@ -11,8 +11,10 @@ require('sweetalert');
 window.Vue = require('vue');
 
 $(document).ready(function(){
-    CKEDITOR.replace( 'description' );
-    CKEDITOR.replace( 'description_short' );
+    if($('#description').length > 0){
+        CKEDITOR.replace( 'description' );
+        CKEDITOR.replace( 'description_short' );
+    }
 });
 
 /**

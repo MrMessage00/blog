@@ -40,9 +40,9 @@
                         <tbody><tr><td colspan="4">Данные не найдены</td></tr></tbody>
                     @endforelse
                         </tbody>
-                        <tfooter>
+                        <tfoot>
                             <tr><td colspan="4">{{$articles->links()}}</td></tr>
-                        </tfooter>
+                        </tfoot>
                 </table>
             </div>
         </div>

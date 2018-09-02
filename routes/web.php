@@ -22,8 +22,11 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=>['auth']], 
 });
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('blog.index');
 });
+
+Route::get('/blog/category/{slug?}', 'BlogController@category')->name('category');
+Route::get('/blog/article/{slug?}',  'BlogController@article')->name('article');
 
 Auth::routes();
 
